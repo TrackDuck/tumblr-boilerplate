@@ -12,6 +12,8 @@
 	<link rel="alternate" type="application/rss+xml" href="{RSS}">
 	<!--Normalize 2.1.0 CSS-->
 	<link rel="stylesheet" href="http://static.tumblr.com/cqczc5x/kYdmihjuj/normalize.css" type="text/css" media="all">
+	<link rel="stylesheet" href="stylesheets/main.css" type="text/css" media="all">
+
 	<style type="text/css">
 
 		img, video, object, embed {
@@ -34,116 +36,275 @@
 
 	</style>
 	<!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+    {block:IfGoogleAnalytics}
+    <!-- Analytics -->
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', '{text:Google Analytics}']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+    {/block:IfGoogleAnalytics}
+
+    <!--<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+    <!--{% javascript main %}-->
+    <!--{% if site.inc.sharing.twitter %}<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>{% endif %}-->
+    <!--{% if site.inc.sharing.facebook %}<div id="fb-root"></div>-->
+    <!--<script>(function(d, s, id) {-->
+        <!--var js, fjs = d.getElementsByTagName(s)[0];-->
+        <!--if (d.getElementById(id)) return;-->
+        <!--js = d.createElement(s); js.id = id;-->
+        <!--js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";-->
+        <!--fjs.parentNode.insertBefore(js, fjs);-->
+    <!--}(document, 'script', 'facebook-jssdk'));</script>{% endif %}-->
+    <!--{% if site.inc.sharing.gplus %}<script type="text/javascript">-->
+    <!--(function() {-->
+        <!--var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;-->
+        <!--po.src = 'https://apis.google.com/js/plusone.js';-->
+        <!--var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);-->
+    <!--})();-->
+<!--</script>{% endif %}-->
+    <!--{% if site.inc.sharing.hn %}<script>-->
+    <!--(function(d, t) {-->
+        <!--var g = d.createElement(t),-->
+                <!--s = d.getElementsByTagName(t)[0];-->
+        <!--g.src = '//hnbutton.appspot.com/static/hn.min.js';-->
+        <!--s.parentNode.insertBefore(g, s);-->
+    <!--}(document, 'script'));-->
+<!--</script>{% endif %}-->
+    <!--{% if site.inc.analytics.google.id %}<script>-->
+    <!--(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){-->
+        <!--(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),-->
+            <!--m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)-->
+    <!--})(window,document,'script','//www.google-analytics.com/analytics.js','ga');-->
+
+    <!--ga('create', '{{ site.inc.analytics.google.id }}', '{{ site.url }}');-->
+    <!--ga('send', 'pageview');-->
+<!--</script>{% endif %}-->
+
 </head>
 <body>
-	<header id="header">
-		<h1 id="logo"><a href="/">{Title}</a></h1>
-		{block:Description}<div class="description">{Description}</div>{/block:Description}
-		<ul id="nav">
-			{block:HasPages}{block:Pages}<li><a href="{URL}">{Label}</a></li>{/block:Pages}{/block:HasPages}
-			<li><a href="/archive">{lang:Archive}</a></li>
-			{block:AskEnabled}<li><a href="/ask">{AskLabel}</a></li>{/block:AskEnabled}
-		</ul>
-		<form id="search" action="/search" method="get">
-			<input type="text" placeholder="{lang:Search}" name="q" value="{SearchQuery}">
-			<input type="submit" value="{lang:Search}">
-		</form>
-	</header>
+
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <a class="brand" href="/">
+                <img src="/images/{{ site.inc.logo }}" alt="Inc">
+            </a>
+            <a href="/" class="home">Blog</a>
+            {% if site.inc.product_link %}<a href="{{ site.inc.product_link }}">Product</a>{% endif %}
+            {% if site.inc.about_link %}<a href="{{ site.inc.about_link }}">About</a>{% endif %}
+        </nav>
+        {% if site.inc.tagline or site.inc.product_url %}<nav class="tagline">
+        {% if site.inc.tagline %}<span>{{ site.inc.tagline }}</span>{% endif %}
+        {% if site.inc.product_link %}<a href="{{ site.inc.product_link }}" class="btn btn-outline">Learn More</a>{% endif %}
+    </nav>{% endif %}
+    </header>
+</section>
+
+<div class="blog-cover" style="background-image:url({block:IfHeaderImage}{image:Header}{/block:IfHeaderImage}{block:IfNotHeaderImage}/images/blog-cover.jpg{/block:IfNotHeaderImage});">
+    <section>
+        <div class="container">
+            <h1>{Title}</h1>
+            {block:Description}<h3>{Description}</h3>{/block:Description}
+
+            {block:IfTwitter}
+            <a href="https://twitter.com/{ socialBlock:twitter }" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter"></i></a>
+            {/block:IfTwitter}
+
+            {block:IfFacebook}
+            <a href="http://facebook.com/{{  socialBlock:facebook }}" title="Like on Facebook" target="_blank"><i class="icon icon-facebook"></i></a>
+            {/block:IfFacebook}
+
+            <a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss"></i>
+            </a>
+        </div>
+    </section>
+</div>
+
+
+
 	<section class="content">
 
+        <!--{% if page.cover_image %}-->
+        <!--<div class="article-cover">-->
+            <!--<div>-->
+                <!--<img src="/images/{{ page.cover_image }}" class="image">-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--{% endif %}-->
 
-		{block:SearchPage}
-		<div class="result">
-			<p>{lang:Found SearchResultCount results for SearchQuery 2}</p>
-			{block:NoSearchResults}<p>{lang:No results for SearchQuery 2}</p>{/block:NoSearchResults}
-		</div>
-		{/block:SearchPage}
+        {block:SearchPage}
+        <article>
+            <div class="result">
+                <p>{lang:Found SearchResultCount results for SearchQuery 2}</p>
+                {block:NoSearchResults}<p>{lang:No results for SearchQuery 2}</p>{/block:NoSearchResults}
+            </div>
+        </article>
+        {/block:SearchPage}
+
+        {block:Posts}
+        <article class="{TagsAsClasses}">
+            <div class="container">
+                <header>
+                    <div class="meta">
+                        By <address><a rel="author" href="{{ page.author.link }}" title="{{ page.author.name }}" target="_blank">{{ page.author.name }}</a> &mdash;
+                        {block:Date}
+                            {block:NewDayDate}<time pubdate datetime="{DayOfWeek}, {Month} {DayOfMonth}, {Year}" title="{DayOfWeek}, {Month} {DayOfMonth}, {Year}">{DayOfWeek}, {Month} {DayOfMonth}, {Year}</time>{/block:NewDayDate}
+                            {block:SameDayDate}<time pubdate datetime="{DayOfWeek}, {Month} {DayOfMonth}, {Year}" title="{DayOfWeek}, {Month} {DayOfMonth}, {Year}">{DayOfWeek}, {Month} {DayOfMonth}, {Year}</time>{/block:SameDayDate}
+                        {/block:Date}
+                    </div>
+                    {block:Title}<h1 class="title">{Title}</h1>{/block:Title}
+                    <!--{% if page.subtitle %}<h2 class="subtitle">{{ page.subtitle }}</h2>{% endif %}-->
+                </header>
+                {block:Text}
+                <section>
+                    {Body}
+                    <!--{% include _social.html %}-->
+                </section>
+                {/ block:Text}
+
+                {block:Quote}
+                <section>
+                    <blockquote class="words {Length}">&#8220;{Quote}&#8221;</blockquote>
+                    {block:Source}<p class="source">&mdash; {Source}</p>{/block:Source}
+                    <!--{% include _social.html %}-->
+                </section>
+                {/block:Quote}
+
+                {block:Link}
+                <section>
+                    <div class="link">
+                        <h3><a href="{URL}" {Target}>{Name}</a></h3>
+                        {block:Description}<div class="caption">{Description}</div>{/block:Description}
+                    </div>
+                </section>
+                {/block:Link}
+
+                {block:Video}
+                <section>
+                    <div class="video">
+                        {Video-500}
+                        {block:Caption}<div class="caption">{Caption}</div>{/block:Caption}
+                    </div>
+                </section>
+                {/block:Video}
+
+
+                {block:Audio}
+                <section>
+                    <div class="audio">
+                        {block:AlbumArt}<img src="{AlbumArtURL}" alt="">{/block:AlbumArt}
+                        {AudioPlayerBlack}
+                        {block:Caption}<div class="caption">{Caption}</div>{/block:Caption}
+                    </div>
+                </section>
+                {/block:Audio}
+
+
+                {block:Photo}
+                <section>
+                <div class="photo">
+                    {LinkOpenTag}<img src="{PhotoURL-HighRes}" alt="{PhotoAlt}"/>{LinkCloseTag}
+                    {block:Caption}<div class="caption">{Caption}</div>{/block:Caption}
+                </div>
+                </section>
+                {/block:Photo}
+
+
+                {block:Photoset}
+                <section>
+                    <div class="photoset">
+                        {block:Photos}
+                        <img src="{PhotoURL-HighRes}" alt="{PhotoAlt}"/>
+                        {block:Caption}<div class="caption">{Caption}</div>{/block:Caption}
+                        {/block:Photos}
+                        {block:Caption}<div class="caption">{Caption}</div>{/block:Caption}
+                    </div>
+                </section>
+                {/block:Photoset}
+
+
+
+                {block:Panorama}
+                <section>
+                    <div class="panorama">
+                        {LinkOpenTag}<img src="{PhotoURL-Panorama}" alt="{PhotoAlt}" />{LinkCloseTag}
+                        {block:Caption}<div class="caption">{Caption}</div>{/block:Caption}
+                    </div>
+                </section>
+                {/block:Panorama}
+
+
+
+                {block:Chat}
+                <section>
+                    <div class="chat">
+                        <ul class="conversation">
+                            {block:Lines}
+                            <li class="line {Alt}">
+                                {block:Label}<span class="person">{Label}</span>{/block:Label}
+                                <span class="person-said">{Line}</span>
+                            </li>
+                            {/block:Lines}
+                        </ul>
+                    </div>
+                </section>
+                {/block:Chat}
+
+
+
+
+                {block:Answer}
+                <section>
+                <div class="answer">
+                    <img src="{AskerPortraitURL-40}">
+                    {Asker}
+                    {Question}
+                    {Answer}
+                </div>
+                </section>
+                {/block:Answer}
+
+
+                {block:IndexPage}<p><a href="{Permalink}" class="permalink">{lang:Permalink}</a></p>{/block:IndexPage}
+
+
+
+                <footer>
+                    <address>
+                        <img src="{PostAuthorPortraitURL-48}">
+                        <p>Written by <strong><a rel="author" href="{PostAuthorURL}" title="{PostAuthorName}" target="_blank">{PostAuthorName}</a></strong><br>
+                            <span class="muted">{{ page.author.bio }}</span>
+                        </p>
+                    </address>
+
+                </footer>
+
+                <!--{% if site.inc.disqus.shortname %}-->
+                <!--<section>-->
+                    <!--{% include _disqus.html %}-->
+                <!--</section>-->
+                <!--{% endif %}-->
+            </div>
+        </article>
+        {/block:Posts}
+
+
 		{block:TagPage}<div class="result"><p>{lang:TagResultCount posts tagged Tag 3}</p></div>{/block:TagPage}
 
-		{block:Posts}
-		<article class="post {TagsAsClasses}">
-			{block:Date}
-			{block:NewDayDate}<p>{DayOfWeek}, {Month} {DayOfMonth}, {Year}</p>{/block:NewDayDate}
-			{block:SameDayDate}<p>{DayOfWeek}, {Month} {DayOfMonth}, {Year}</p>{/block:SameDayDate}
-			{/block:Date}
-			{block:Text}
-			<div class="text">
-				{block:Title}<h3>{Title}</h3>{/block:Title}
-				{Body}
-			</div>
-			{/block:Text}
-			{block:Quote}
-			<div class="quote">
-				<blockquote class="words {Length}">&#8220;{Quote}&#8221;</blockquote>
-				{block:Source}<p class="source">&mdash; {Source}</p>{/block:Source}
-			</div>
-			{/block:Quote}
-			{block:Link}
-			<div class="link">
-				<h3><a href="{URL}" {Target}>{Name}</a></h3>
-				{block:Description}<div class="caption">{Description}</div>{/block:Description}
-			</div>
-			{/block:Link}
-			{block:Video}
-			<div class="video">
-				{Video-500}
-				{block:Caption}<div class="caption">{Caption}</div>{/block:Caption}
-			</div>
-			{/block:Video}
-			{block:Audio}
-			<div class="audio">
-				{block:AlbumArt}<img src="{AlbumArtURL}" alt="">{/block:AlbumArt}
-				{AudioPlayerBlack}
-				{block:Caption}<div class="caption">{Caption}</div>{/block:Caption}
-			</div>
-			{/block:Audio}
-			{block:Photo}
-			<div class="photo">
-					{LinkOpenTag}<img src="{PhotoURL-HighRes}" alt="{PhotoAlt}"/>{LinkCloseTag}
-					{block:Caption}<div class="caption">{Caption}</div>{/block:Caption}
-			</div>
-			{/block:Photo}
-			{block:Photoset}
-			<div class="photoset">
-				{block:Photos}
-					<img src="{PhotoURL-HighRes}" alt="{PhotoAlt}"/>
-					{block:Caption}<div class="caption">{Caption}</div>{/block:Caption}
-			    {/block:Photos}
-				{block:Caption}<div class="caption">{Caption}</div>{/block:Caption}
-			</div>
-			{/block:Photoset}
 
-			{block:Panorama}
-			<div class="panorama">
-			    {LinkOpenTag}<img src="{PhotoURL-Panorama}" alt="{PhotoAlt}" />{LinkCloseTag}
-			    {block:Caption}<div class="caption">{Caption}</div>{/block:Caption}
-			</div>
-			{/block:Panorama}
-
-			{block:Chat}
-			<div class="chat">
-				{block:Title}<h3>{Title}</h3>{/block:Title}
-				<ul class="conversation">
-					{block:Lines}
-					<li class="line {Alt}">
-						{block:Label}<span class="person">{Label}</span>{/block:Label}
-						<span class="person-said">{Line}</span>
-					</li>
-					{/block:Lines}
-				</ul>
-			</div>
-			{/block:Chat}
-			{block:Answer}
-			<div class="answer">
-				<img src="{AskerPortraitURL-40}">
-				{Asker}
-				{Question}
-				{Answer}
-			</div>
-			{/block:Answer}
-			{block:IndexPage}<p><a href="{Permalink}" class="permalink">{lang:Permalink}</a></p>{/block:IndexPage}
-		</article>
-		{/block:Posts}
 
 		{block:PermalinkPagination}
 		<div class="pagination">
@@ -165,5 +326,39 @@
 		</div>
 		{/block:Pagination}
 	</section><!--close content-->
+
+
+
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; {CopyrightYears}
+
+        <nav>
+            <a href="{BlogURL}">{Title}</a> &middot;
+            <a href="/">Blog</a> &middot;
+            <!--{% if site.inc.product_link %}<a href="{BlogURL}">Product</a> &middot; {% endif %}-->
+            <!--{% if site.inc.about_link %}<a href="{BlogURL}">About</a>{% endif %}-->
+        </nav>
+
+        <nav class="social">
+            {block:IfTwitter}
+            <a href="https://twitter.com/{{ site.inc.twitter }}" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+            {/block:IfTwitter}
+            {block:IfFacebook}
+            <a href="http://facebook.com/{{ site.inc.facebook }}" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+            {/block:IfFacebook}
+            <a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss black"></i>
+            </a>
+        </nav>
+        <p>Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+    </div>
+</footer>
+
+
+
+
+
 </body>
 </html>
